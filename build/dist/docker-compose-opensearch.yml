@@ -4,5 +4,4 @@ services:
     environment:
       - "discovery.type=single-node"
       - "plugins.security.disabled=true"
-
-
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=.zZ.ikn4~4icXobVFy-8
