@@ -1,0 +1,3 @@
+services:
+  dbclient:
+    image: percona:8

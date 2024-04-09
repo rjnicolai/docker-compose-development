@@ -222,12 +222,26 @@ dc() {
     }
 
     php() {
-        local available="`php_versions`";
+        local PHP=$(stopfile "`php_versions`")
+
+        if [ -z "${PHP}" ]; then
+            return 1;
+        else
+            DEV_PHP=${PHP};
+        fi
+
+        return 0;
+    }
+
+    stopfile() {
+        local available="$1" project=${DEV_WORKSPACE_PATH}/${DEV_PROJECTPATH};
+
+        # check if stopfile can be found in this directory
         check() {
-            local base=$1;
+            local a;
             for a in ${available}; do
-                if [ -e ${base}/.${a} ]; then
-                    DEV_PHP=${a};
+                if [ -e $1/.$a ]; then
+                    echo $a;
                     return 0;
                 fi
             done
@@ -235,7 +249,6 @@ dc() {
             return 1;
         }
 
-        local project=${DEV_WORKSPACE_PATH}/${DEV_PROJECTPATH};
         if [ -n "${DEV_PROJECTPATH}" ]; then
             while [ "${project}" != "${DEV_WORKSPACE_PATH}" ]; do
                 check ${project} && return 0;
@@ -243,8 +256,7 @@ dc() {
             done
         fi
 
-        check ${DEV_WORKSPACE_PATH} && return 0;
-        return 1;
+        check ${DEV_WORKSPACE_PATH} && return 0 || return 1;
     }
 
     env() {

@@ -1,13 +1,17 @@
 
-dc yml build/dist/docker-compose-dbclient.yml;
-
 dc service dbclient;
 
 dc nodeps;
 dc interactive;
 dc ignore_orphans;
 
-dc cmd mysql "-h db -u ${USER}";
+if dc stopfile mysql8 >/dev/null; then
+    dc yml build/dist/docker-compose-db8client.yml;
+    dc cmd mysql "-h db8 -u ${USER}";
+else
+    dc yml build/dist/docker-compose-dbclient.yml;
+    dc cmd mysql "-h db -u ${USER}";
+fi
 
 dc run "$@";
 return $?;

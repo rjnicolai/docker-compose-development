@@ -7,7 +7,15 @@ dc nodeps;
 dc interactive;
 dc ignore_orphans;
 
-dc cmd mysql "-hdb -uroot -p${MYSQL_ROOT_PASSWORD}";
+
+if dc stopfile mysql8 >/dev/null; then
+    dc yml build/dist/docker-compose-db8client.yml;
+    dc cmd mysql "-hdb8 -uroot -p${MYSQL_ROOT_PASSWORD}";
+else
+    dc yml build/dist/docker-compose-dbclient.yml;
+    dc cmd mysql "-hdb -uroot -p${MYSQL_ROOT_PASSWORD}";
+fi
+
 dc run "$@";
 return $?;
 
