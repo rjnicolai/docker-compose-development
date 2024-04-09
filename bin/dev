@@ -25,7 +25,7 @@ init() {
     DEV_WORKSPACE="`echo ${DEV_WORKSPACE_PATH} | sed -e 's/\\//\\\\\//g'`";
     DEV_PROJECTPATH=`echo ${DEV_USERDIR} | sed -e "s/${DEV_WORKSPACE}\///"`;
 
-    DEV_PHP='php71';
+    DEV_PHP='php82';
 
     DEV_INTERACTIVE=0;
     if [ -t "0" ] && [ -t "1" ]; then
